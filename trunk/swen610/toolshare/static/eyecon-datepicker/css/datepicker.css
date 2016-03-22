@@ -1,0 +1,191 @@
+div.eyedatepicker {
+	position: relative;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	width: 196px;
+	height: 147px;
+	position: absolute;
+	cursor: default;
+	top: 0;
+	left: 0;
+	display: none;
+}
+.eyedatepickerContainer {
+	background: #121212;
+	position: absolute;
+	top: 10px;
+	left: 10px;
+}
+.eyedatepickerBorderT {
+	position: absolute;
+	left: 10px;
+	top: 0;
+	right: 10px;
+	height: 10px;
+	background: url(../images/datepicker_t.png);
+}
+.eyedatepickerBorderB {
+	position: absolute;
+	left: 10px;
+	bottom: 0;
+	right: 10px;
+	height: 10px;
+	background: url(../images/datepicker_b.png);
+}
+.eyedatepickerBorderL {
+	position: absolute;
+	left: 0;
+	bottom: 10px;
+	top: 10px;
+	width: 10px;
+	background: url(../images/datepicker_l.png);
+}
+.eyedatepickerBorderR {
+	position: absolute;
+	right: 0;
+	bottom: 10px;
+	top: 10px;
+	width: 10px;
+	background: url(../images/datepicker_r.png);
+}
+.eyedatepickerBorderTL {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 10px;
+	height: 10px;
+	background: url(../images/datepicker_tl.png);
+}
+.eyedatepickerBorderTR {
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: 10px;
+	height: 10px;
+	background: url(../images/datepicker_tr.png);
+}
+.eyedatepickerBorderBL {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 10px;
+	height: 10px;
+	background: url(../images/datepicker_bl.png);
+}
+.eyedatepickerBorderBR {
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	width: 10px;
+	height: 10px;
+	background: url(../images/datepicker_br.png);
+}
+.eyedatepickerHidden {
+	display: none;
+}
+div.eyedatepicker table {
+	border-collapse:collapse;
+}
+div.eyedatepicker a {
+	color: #eee;
+	text-decoration: none;
+	cursor: default;
+	outline: none;
+}
+div.eyedatepicker table td {
+	text-align: right;
+	padding: 0;
+	margin: 0;
+}
+div.eyedatepicker th {
+	text-align: center;
+	color: #999;
+	font-weight: normal;
+}
+div.eyedatepicker tbody th {
+	text-align: left;
+}
+div.eyedatepicker tbody a {
+	display: block;
+}
+.eyedatepickerDays a {
+	width: 20px;
+	line-height: 16px;
+	height: 16px;
+	padding-right: 2px;
+}
+.eyedatepickerYears a,
+.eyedatepickerMonths a{
+	width: 44px;
+	line-height: 36px;
+	height: 36px;
+	text-align: center;
+}
+td.eyedatepickerNotInMonth a {
+	color: #666;
+}
+tbody.eyedatepickerDays td.eyedatepickerSelected{
+	background: #136A9F;
+}
+tbody.eyedatepickerDays td.eyedatepickerNotInMonth.eyedatepickerSelected {
+	background: #17384d;
+}
+tbody.eyedatepickerYears td.eyedatepickerSelected,
+tbody.eyedatepickerMonths td.eyedatepickerSelected{
+	background: #17384d;
+}
+div.eyedatepicker a:hover,
+div.eyedatepicker a:hover {
+	color: #88c5eb;
+}
+div.eyedatepicker td.eyedatepickerNotInMonth a:hover {
+	color: #999;
+}
+div.eyedatepicker tbody th {
+	text-align: left;
+}
+.eyedatepickerSpace div {
+	width: 20px;
+}
+.eyedatepickerGoNext a,
+.eyedatepickerGoPrev a,
+.eyedatepickerMonth a {
+	text-align: center;
+	height: 20px;
+	line-height: 20px;
+}
+.eyedatepickerGoNext a {
+	float: right;
+	width: 20px;
+}
+.eyedatepickerGoPrev a {
+	float: left;
+	width: 20px;
+}
+table.eyedatepickerViewDays tbody.eyedatepickerMonths,
+table.eyedatepickerViewDays tbody.eyedatepickerYears {
+	display: none;
+}
+table.eyedatepickerViewMonths tbody.eyedatepickerDays,
+table.eyedatepickerViewMonths tbody.eyedatepickerYears,
+table.eyedatepickerViewMonths tr.eyedatepickerDoW {
+	display: none;
+}
+table.eyedatepickerViewYears tbody.eyedatepickerDays,
+table.eyedatepickerViewYears tbody.eyedatepickerMonths,
+table.eyedatepickerViewYears tr.eyedatepickerDoW {
+	display: none;
+}
+td.eyedatepickerDisabled a,
+td.eyedatepickerDisabled.eyedatepickerNotInMonth a{
+	color: #333;
+}
+td.eyedatepickerDisabled a:hover {
+	color: #333;
+}
+td.eyedatepickerSpecial a {
+	background: #700;
+}
+td.eyedatepickerSpecial.eyedatepickerSelected a {
+	background: #a00;
+}

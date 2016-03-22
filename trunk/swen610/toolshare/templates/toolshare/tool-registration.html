@@ -1,0 +1,62 @@
+{% extends "toolshare/base_home.html" %}
+
+{% block title %}
+    | List a tool
+{% endblock %}
+
+{% block breadcrumb %}
+    <li><a href="/toolshare/">Home</a></li><li class="active"><a href="#"></a>Tool registration</li>
+{% endblock %}
+
+{% block main_heading %}
+    <h2>Tool Registration</h2>
+    <p>Register a tool in toolshare for other members to borrow.</p>
+{% endblock %}
+
+{% block content %}
+{% if registration_form.errors %}
+    <div class="alert alert-block alert-inline-top alert-dismissable" style="display:block;">
+    <h4>The new tool could not be registered...</h4>
+    {% if registration_form.non_field_errors %}
+        {{ registration_form.non_field_errors }}
+        {% else %}
+        Check the error messages displayed below and try again.
+        {% endif%}
+        <button type="button" class="close" data-dismiss="alert">×</button>
+    </div>
+    {% endif %}
+    <div class="inner-padding" style="overflow:scroll">
+    <form action="/toolshare/tool-registration" method="post" enctype="multipart/form-data">{% csrf_token %}
+        {% for field in registration_form %}
+            <div class="row">
+                <div class="col-sm-3"><label>{{field.label}}:</label></div>
+                <div class="col-sm-9">
+
+                    {% if field.errors %}
+
+                    <div class="form-group has-error">
+                        {% for error in field.errors %}
+                        <label class="control-label" for="id_password">{{error}}</label>
+                        {% endfor %}
+                        {% else %}
+                        <div class="form-group ">
+                            {% endif %}
+                            <div class="controls">{{ field }}</div>
+                        </div><!--form group end-->
+
+                    </div>
+                </div><!--Row end-->
+                {% endfor %}
+
+                <div class="row">
+
+                    <div class="col-sm-3"></div>
+                    <div class="col-sm-9">
+                        <input type="submit" value="Register tool" />
+                    </div>
+                </div>
+    </form>
+    {# <img src="{{ registration_form.instance.picture.url }}" /> #}
+    </div>
+
+{% endblock %}

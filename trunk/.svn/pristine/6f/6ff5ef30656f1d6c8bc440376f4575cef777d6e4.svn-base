@@ -1,0 +1,82 @@
+{% extends "toolshare/base_home.html" %}
+
+{% block title%}
+    | My account - Owned tools
+{% endblock %}
+
+{% block main_heading %}
+<h2>Tool Description</h2>
+<p>Details of Tool</p>
+{% endblock %}<!--
+{% block breadcrumb %}
+    <li><a href="/toolshare/">Home</a></li><li><a href="/toolshare/my_account">My account</a></li><li class="active"><a href="#"></a>Owned tools</li>
+{% endblock %}-->
+
+{% block content %}
+<div id="tool-detail" class="tab-pane active">
+<!--
+    Message to display if cancel, or return
+    =======================================
+    -->
+    {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}"><strong>{{ message }}</strong></div>
+    {% endfor %}
+    <div class="inner-padding">
+        <div class="col-sm-6">
+
+            <div class="client-block">
+                <div>
+                <ul class="client-block-list">
+                    <li>
+                        <h3> {{tool.name}}</h3><br/>
+                        <div class="dropdown">
+                            <a class="btn btn-default btn-sm" href="/toolshare/change-tool-info/{{tool.id}}">
+                                <i class="fa fa-edit"></i>
+                                Edit
+
+                            </a>
+                            <a class="btn btn-default btn-sm" href="/toolshare/change-tool-availability/{{tool.id}}">
+
+                                Change availability
+                            </a>
+
+                            <a class="btn btn-default btn-sm" href="/toolshare/activate-deactivate/{{tool.id}}">
+
+                                {% if tool.status == 'D' %}
+                                    Activate
+                                {% else %}
+                                    Deactivate
+                                {% endif %}
+                            </a>
+                        </div><!-- End .dropdown -->
+
+                    </li>
+                </ul>
+                    </div>
+                        <div class="lightboxx">
+                        <a href="{{ tool.picture.url }}" class="relative" title="{{ tool.name }}" style="width:145px">
+                            <img src="{{ tool.picture.url }}" class="img-thumbnail" />
+                            <span class="lightbox-indicator" style="display: inline; opacity: 0;"><span><i class="fa fa-search"></i></span></span></a>
+                        </div>
+            </div><!-- End .client-block -->
+        </div>
+        <div class="col-sm-6">
+        <div class="row">
+            <div class="col-sm-3"><strong>Status:</strong></div><div class="col-sm-9">{{tool.get_status_description}}</div>
+        </div>
+        <div class="row">
+            <div class="col-sm-3"><strong>Category:</strong></div><div class="col-sm-9">{{tool.category}}</div>
+        </div>
+        <div class="row">
+            <div class="col-sm-3"><strong>Pickup location:</strong></div><div class="col-sm-9">{{tool.pickup_location}}</div>
+        </div>
+        <div class="row">
+            <div class="col-sm-3"><strong>Description:</strong></div><div class="col-sm-9">{{tool.description}}</div>
+        </div>
+        <div class="row">
+            <div class="col-sm-3"><strong>Special instructions:</strong></div><div class="col-sm-9">{{tool.special_instructions}}</div>
+        </div>
+        </div>
+    </div>
+</div>
+ {% endblock%}

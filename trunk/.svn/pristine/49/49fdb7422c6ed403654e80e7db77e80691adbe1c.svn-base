@@ -1,0 +1,123 @@
+{% extends "toolshare/base_home.html" %}
+
+{% block title %}
+    | Reserve tools
+{% endblock %}
+
+{% block breadcrumb %}
+    <li><a href="/toolshare/">Home</a></li><li class="active"><a href="#"></a>Reserve a tool</li>
+{% endblock %}
+
+{% block main_heading %}
+    <h2>Reserve a Tool </h2>
+{% endblock %}
+
+{% block content %}
+
+<script>
+    function addDays(date, n){
+        date.setDate(date.getDate() + n);
+    }
+
+	$(document).ready(function() {
+        // Get the current
+		var now = new Date();
+        //addDays(now, -1);
+
+		//--Render Disable-Dates
+		var disable_dates = [
+            {% for date in list_disabled_dates%}
+                new Date("{{date}}"),
+            {% endfor %}
+            now];
+
+		//--End Render
+
+		// As timestamp
+		for (i = 0; i < disable_dates.length; i++) {
+			d = disable_dates[i];
+			d.setHours(0,0,0,0);
+			disable_dates[i] = d.valueOf();
+		}
+
+
+
+		// To show the second month
+		var aux = new Date();
+		//aux.addDays(30);
+		addDays(aux, 30);
+		$('#reservation-calendar').DatePicker({
+		    format: 'm/d/Y',
+			flat: true,
+			date: [now],
+			current: aux,
+			calendars: 3,
+			mode: 'range',
+			starts: 1,
+			onRender: function(date	) {
+				return {
+					disabled: (date.valueOf() <= now.valueOf()) || (disable_dates.indexOf(date.valueOf()) != -1)
+				}
+			},
+			onChange: function(formated, dates){
+				$('#id_start_date').val(formated[0]);
+				$('#id_end_date').val(formated[1]);
+			},
+		});
+
+		//Select the first day
+		var current_day =  new Date();
+		$('#reservation-calendar').DatePickerSetDate(current_day,false);
+	});
+</script>
+
+
+ <div class="inner-padding">
+    <div>
+
+<table class="table" style="border-style: none; border-width: 0px;">
+    <colgroup>
+        <col class="col-xs-3">
+        <col class="col-xs-7">
+        <col class="col-xs-6">
+    </colgroup>
+    <tbody style="border-style: none;border-width: 0px; border: none;">
+        <tr style="border-style: none;border-width: 0px; border: none;">
+            <td style="border-style: none;border-width: 0px; border: none;">
+                <i class="fa" style="background:url(/toolshare/media/{{tool.picture}})  white no-repeat center center;height:100px;width:100px; background-size:contain; border-style: dotted;border-width: 1px;" ></i>
+            </td>
+
+            <td class="rt-hide-td" style="border-style: none;border-width: 0px; border: none;">
+                <p><strong>{{tool.name}}</strong><br></p>
+                <div class="spacer-5"></div>
+                <p class="text-muted">
+                    {{tool.description}}
+                </p>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+    </div>
+
+     <br/>
+     <form action="/toolshare/borrow-tool/{{tool.id}}" method="post">{% csrf_token %}
+            <table>
+                {{ borrow_form }}
+                <tr><td></td><td></td></tr>
+                <tr><td></td><td></td></tr>
+            </table>
+            <div class="inner-padding" style="overflow:scroll">
+                <div id="reservation-calendar"></div>
+             </div>
+            <table>
+                <tr><td><input type="submit" value="Send a Reservation Request" /></td><td></td></tr>
+            </table>
+
+        </form>
+
+    </div>
+
+
+{% endblock %}
+

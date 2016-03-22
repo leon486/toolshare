@@ -1,0 +1,63 @@
+{% extends "toolshare/base_home.html" %}
+
+{% block title %}
+| New user registration
+{% endblock %}
+
+{% block breadcrumb %}
+<li><a href="/toolshare/">Home</a></li><li class="active"><a href="#"></a>Registration</li>
+{% endblock %}
+
+{% block main_heading %}
+<h2>New user registration</h2>
+<p>Create a new user account</p>
+{% endblock %}
+
+{% block content %}
+
+    {% if form.errors %}
+    <div class="alert alert-block alert-inline-top alert-dismissable" style="display:block;">
+    <h4>It was not possible to register your user account...</h4>
+    {% if form.non_field_errors %}
+        {{ form.non_field_errors }}
+        {% else %}
+        Check the error messages displayed below and try again.
+        {% endif%}
+        <button type="button" class="close" data-dismiss="alert">×</button>
+    </div>
+    {% endif %}
+
+<div class="inner-padding" style="overflow:scroll">
+    <form action="{%url 'toolshare:user-registration' %}" method="post">{% csrf_token %}
+       {% for field in registration_form %}
+            <div class="row">
+                <div class="col-sm-3"><label>{{field.label}}:</label></div>
+                <div class="col-sm-9">
+
+                    {% if field.errors %}
+
+                    <div class="form-group has-error">
+                        {% for error in field.errors %}
+                        <label class="control-label" for="id_password">{{error}}</label>
+                        {% endfor %}
+                        {% else %}
+                        <div class="form-group ">
+                            {% endif %}
+                            <div class="controls">{{ field }}</div>
+                        </div><!--form group end-->
+
+                    </div>
+                </div><!--Row end-->
+                {% endfor %}
+
+                <div class="row">
+
+                    <div class="col-sm-3"></div>
+                    <div class="col-sm-9">
+                        <input type="submit" value="Register account" />
+                    </div>
+                </div>
+    </form>
+</div><!--inner padding end-->
+
+{% endblock %}

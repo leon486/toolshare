@@ -1,0 +1,241 @@
+{% extends "toolshare/base_home.html" %}
+
+{% block title %}
+| Tool reservations request
+{% endblock %}
+
+{% block breadcrumb %}
+<li><a href="/toolshare/">Home</a></li><li class="active"><a href="#"></a> Tool reservations request</li>
+{% endblock %}
+
+{% block main_heading %}
+<h2>Tool reservations request</h2>
+<p>Manage Tool reservations request</p>
+{% endblock %}
+
+
+{% block content %}
+<div class="inner-padding"><!--inner padding-->
+
+
+<!--
+ CANCEL-MODALS reservations
+ ==========================================
+-->
+{% for reservation in reservation_page %}
+        <div class="modal fade" id="modal-{{reservation.id}}">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    {% if reservation.status == 'P' %}
+                        <h3 class="modal-title">Approve/Reject Reservation</h3>
+                    {% elif reservation.status == 'RP' %}
+                        <h3 class="modal-title">Acknowledge/Negate Return</h3>
+                    {% elif reservation.status == 'A' %}
+                        <h3 class="modal-title">Cancel Reservation</h3>
+                    {% else %}
+                        <h3 class="modal-title">Reservation Detail</h3>
+                    {% endif %}
+                </div>
+                <div class="modal-body">
+                  <table id="tblGrid" >
+                    <colgroup>
+                        <col class="col-xs-2">
+                        <col class="col-xs-7">
+                    </colgroup>
+                    <thead id="tblHead">
+                      <tr>
+                        <th></th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td valign="top">
+                            <i class="fa" style="background:url(/toolshare/media/{{reservation.tool.picture}})  no-repeat center center;height:90px;width:90px; background-size:contain; border-style: dotted;border-width: 1px;" ></i>
+                            <p>{{reservation.tool.category}}</p>
+                        </td>
+                        <td class="rt-hide-td">
+                            <p><strong>{{reservation.tool.name}}</strong><br>
+                                <span class="label label-default">{{reservation.get_status_description}}</span><br/>
+                                {{reservation.start_date|date:"M d, Y"}} - {{reservation.end_date|date:"M d, Y"}}<br/>
+                            </p>
+                            <div class="spacer-5"></div>
+                            <div class="alert alert-success"><strong>Borrower: </strong> {{ reservation.request_msg }}</div>
+
+                            {% if reservation.reject_msg and reservation.reject_msg.strip %}
+                                <div class="alert alert-danger"><strong>Rejection message: </strong> {{ reservation.reject_msg }}</div>
+                            {% endif %}
+
+                            {% if reservation.cancel_msg and reservation.cancel_msg.strip %}
+                                <div class="alert alert-warning"><strong>Cancellation message: </strong> {{ reservation.cancel_msg }}</div>
+                            {% elif reservation.status == 'C' %}
+                                <div class="alert alert-warning"><strong>Borrower cancelled the reservation</strong></div>
+                            {% endif %}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+
+                    <div class="modal-footer">
+
+                    {% if reservation.status == 'P' %}
+                        <form class="form-horizontal" role="form" action="/toolshare/reservation/{{reservation.id}}/respond_reservation" method="post">
+                    {% elif reservation.status == 'RP' %}
+                        <form class="form-horizontal" role="form" action="/toolshare/reservation/{{reservation.id}}/ack-return-tool" method="post">
+                    {% elif reservation.status == 'A' %}
+                        <form class="form-horizontal" role="form" action="/toolshare/reservation/{{reservation.id}}/cancel-as-lender" method="post">
+                    {% endif %}
+                            {% csrf_token %}
+                            <div class="form-group">
+                                {% if reservation.status == 'P' or reservation.status == 'A' %}
+                                    <label for="lender_message" class="col-sm-2 control-label">Your Message</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" name="lender_message" id="lender_message" placeholder="Your Message">
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            {% if reservation.status == 'P' %}
+                                <input type="submit" class="btn btn-success" name="button_approve" value="Approve">
+                                <input type="submit" class="btn btn-danger" name="button_reject" value="Reject">
+                            {% elif reservation.status == 'RP' %}
+                                <input type="submit" class="btn btn-primary" name="button_confirm" value="Confirm Return">
+                                <input type="submit" class="btn btn-danger" name="button_reject" value="Decline Return">
+                            {% elif reservation.status == 'A' %}
+                                <input type="submit" class="btn btn-warning" value="Cancel Reservation">
+                            {% endif %}
+
+                        </form>
+                    </div>
+                  <div class="clearfix"></div>
+                </div>
+              </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+{% endfor %}
+
+
+    <!--
+    Message to display if cancel, or return
+    =======================================
+    -->
+    {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}"><strong>{{ message }}</strong></div>
+    {% endfor %}
+
+    <!-- The list of reservations-->
+
+
+    <div class="widget" >
+        <header>
+            <div class="pull-left">
+                <h2> Tool reservation request</h2>
+            </div>
+        </header>
+
+        <div>
+            <table class="table">
+                <colgroup>
+                    <col class="col-xs-2">
+                    <col class="col-xs-7">
+                    <col class="col-xs-3">
+                </colgroup>
+                <tbody>
+                    {% for reservation in reservation_page %}
+                        {% if reservation.status == 'P' %}
+                            <tr class="alert alert-warning">
+                        {% elif reservation.status == 'A' %}
+                            <tr class="alert alert-success">
+                        {% elif reservation.status == 'R' %}
+                            <tr class="alert alert-danger">
+                        {% else %}
+                           <tr>
+                        {% endif %}
+                        <td >
+                            <i class="fa" style="background:url(/toolshare/media/{{reservation.tool.picture}})  white no-repeat center center;height:90px;width:90px; background-size:contain; border-style: dotted;border-width: 1px;" ></i>
+                            <p>{{reservation.tool.category}}</p>
+                        </td>
+
+                        <td class="rt-hide-td">
+                            <p><strong>
+                                {{reservation.tool.name}}
+                                {% if reservation.borrower == request.user%}
+                                    [Reserving my owned tool]
+                                {% endif %}
+                               </strong><br>
+                                <span class="label label-default">{{reservation.get_status_description}}</span><br/>
+                                {{reservation.start_date|date:"M d, Y"}} - {{reservation.end_date|date:"M d, Y"}}<br/>
+                            </p>
+                            <div class="spacer-5"></div>
+                            <p class="text-muted">
+                                {{reservation.tool.description}}
+                            </p>
+                        </td>
+                        <td class="center-block" style="display:table-cell; vertical-align:middle;">
+                            <div class="spacer-8"></div>
+                            {% if reservation.status == 'P' %}
+                                <a href="/toolshare/reservation/{{reservation.id}}/respond_reservation" class="btn btn-success"  data-toggle="modal" data-target="#modal-{{reservation.id}}" >&nbsp; &nbsp; Approve <span>-</span> <span >Reject</span>  &nbsp; &nbsp; </a>
+
+                            {% elif reservation.status == 'RP' %}
+                                <a href="/toolshare/reservation/{{reservation.id}}/ack-return-tool" class="btn btn-primary" data-toggle="modal" data-target="#modal-{{reservation.id}}" >
+                                    &nbsp; &nbsp; &nbsp;
+                                    Respond Return
+                                    &nbsp; &nbsp;
+                                </a>
+                            {% elif reservation.status == 'A' %}
+                                <a href="/toolshare/reservation/{{reservation.id}}/cancel-as-lender" class="btn btn-warning"  data-toggle="modal" data-target="#modal-{{reservation.id}}" >
+                                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                                    Cancel
+                                    &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                                </a>
+                            {% else %}
+                                <a class="btn btn-default" data-toggle="modal" href="/toolshare/reservation/{{reservation.id}}/show" data-target="#modal-{{reservation.id}}" title="show" data-tooltip> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;Show Details &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; </a>
+
+                            {% endif %}
+                        </td>
+
+                        </tr>
+
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+
+
+        <div class="toolbar">
+            <div class="toolbar-field">
+                <ul class="pagination pagination-centered">
+                    {% if reservation_page.has_previous %}
+                    <li><a href="?page=1"><< First</a></li>
+                    <li><a href="?page={{ tool_page.previous_page_number }}">< Prev</a></li>
+                    {%else%}
+                    <li><a style="color:#dddddd"><< First</a></li>
+                    <li><a style="color:#dddddd">< Prev</a></li>
+                    {% endif %}
+
+                    {% for i in reservation_page.paginator.page_range %}
+                    {# {% if i <= reservation_page.number|add:5 and i >= reservation_page.number|add:-5%} #}
+                    <li {% if reservation_page.number == i %} class="active" {% endif %}><a href="?page={{i}}">{{i}}</a></li>
+                    {# {% endif %} #}
+
+                    {% endfor %}
+
+                    {% if reservation_page.has_next %}
+                    <li><a href="?page={{ reservation_page.next_page_number }}">Next ></a></li>
+                    <li><a href="?page={{ reservation_page.paginator.num_pages }}">Last >></a></li>
+                    {%else%}
+                    <li><a style="color:#dddddd" class="disabled">Next ></a></li>
+                    <li><a style="color:#dddddd" class="disabled">Last >></a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+
+    </div><!--widget end-->
+
+</div><!--inner-padding end-->
+
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends "toolshare/base_home.html" %}
+
+{% block content %}
+    <h1>ToolShare - User Registration</h1>
+    <form action="{%url 'toolshare:user-registration' %}" method="post">{% csrf_token %}
+        <table>
+            {{ registration_form.as_table }}
+        </table>
+        <input type="submit" value="Submit" />
+    </form>
+{% endblock %}
+

@@ -1,0 +1,189 @@
+{% extends "toolshare/base_home.html" %}
+
+{% block title %}
+| Find tool
+{% endblock %}
+
+{% block breadcrumb %}
+<li><a href="/toolshare/">Home</a></li><li class="active"><a href="#"></a>Login</li>
+{% endblock %}
+
+{% block main_heading %}
+<h2>Find tool</h2>
+<p>Find a tool to borrow</p>
+{% endblock %}
+
+{% block content %}
+
+{% if form.errors %}
+<div class="alert alert-block alert-inline-top alert-dismissable" style="display:block;">
+    <h4>Hmmm we couldn't log you in...</h4>
+    {% if form.non_field_errors %}
+    {{ form.non_field_errors }}
+    {% else %}
+    Check the error messages displayed below and try again.
+    {% endif%}
+    <button type="button" class="close" data-dismiss="alert">×</button>
+</div>
+{% endif %}
+
+<div class="inner-padding"><!--inner padding-->
+
+    <form method="get" action="/toolshare/find_tool">
+
+        <div class="toolbar">
+            <form method="get">
+                <div class="toolbar-field">
+                    <strong>Search for</strong>
+                    <input class="form-control" name="search_for" required="" autofocus="" value="{{search_for}}" type="text" placeholder="Search for...">
+                </div><!--
+                                <div class="toolbar-field">
+                                    <strong>Type</strong>
+                                    <div class="simpelselect-container"><div class="simpelselect-inner"><div class="simpleselect-value">18 - 30</div><div class="simpleselect-btn"><i class="fa fa-caret-down"></i></div></div>
+                                    <select class="form-control simpleselect">
+                                        <option>Hammers</option>
+                                        <option>Motorized tools</option>
+                                        <option>Screwdrivers</option>
+                                        <option>Other</option>
+                                    </select></div>
+                                </div>-->
+                <div class="toolbar-field">
+                    <strong>From</strong>
+                    <input value='{{from_date}}' name="from_date" id="from_date" class="datepicker form-control" data-date-format="yyyy-mm-dd" type="text" />
+                </div>
+                <div class="toolbar-field">
+                    <strong>To</strong>
+                    <input value="{{to_date}}" name="to_date"  id="to_date" class="datepicker form-control" data-date-format="yyyy-mm-dd" type="text" />
+                </div>
+                <div class="toolbar-field">
+                    <strong>&nbsp;</strong>
+                    <button type="submit" name="find_tools" value ="find_tools" class="btn btn-default">Find tools</button>
+                </div>
+            </form>
+        </div>
+
+        {% for field in form %}
+        <div class="row">
+            <div class="col-sm-3"><label>{{field.label}}:</label></div>
+            <div class="col-sm-9">
+
+                {% if field.errors %}
+
+                <div class="form-group has-error">
+                    {% for error in field.errors %}
+                        <label class="control-label" for="id_password">{{error}}</label>
+                    {% endfor %}
+                    {% else %}
+                    <div class="form-group ">
+                        {% endif %}
+                        <div class="controls">{{ field }}</div>
+                    </div><!--form group end-->
+
+                </div>
+            </div><!--col 9 end-->
+            {% endfor %}
+        </div><!-- row end-->
+    </form>
+
+    <div class="widget" >
+        <header>
+            <div class="pull-left">
+                <h2>Tool results {{tool_count}}</h2>
+            </div>
+        </header>
+        <div>
+        <table class="table" data-rt-breakpoint="600" >
+            <thead>
+            <th class="th-square" scope="col"></th>
+            <th class="th-user-date" scope="col">Details</th>
+            <th class="th-square" scope="col">Reserve</th>
+            </thead>
+            <tbody>
+
+
+            {% for tool in tool_page %}
+
+            <tr>
+                <td class="rt-hide-td">
+                    <i class="fa" style="background:url(/toolshare/media/{{tool.picture}}) black no-repeat center center;height:78px;width:81px;"></i>
+                    <p>{{tool.category}}</p>
+
+                </td>
+                <td class="rt-hide-td">
+                    <p><strong>{{tool.name}}</strong></p>
+                    <div class="spacer-5"></div>
+                    <p class="text-muted">
+                        {{tool.description}}
+                    </p>
+                </td>
+                <td><a href="/toolshare/borrow-tool/{{tool.id}}" class="btn btn-info btn-sm"><i class="fa fa-pencil"></i>Reserve</a></td>
+                <td class="rt-clone-td"><div class="rt-responsive-row"><div class="rt-responsive-th"></div><div class="rt-responsive-td">
+                    <label><input type="checkbox"><span></span></label>
+                </div></div><div class="rt-responsive-row"><div class="rt-responsive-th"></div><div class="rt-responsive-td">
+                    <img src="images/users/user-1.jpg" alt="" class="td-avatar">
+                </div></div><div class="rt-responsive-row"><div class="rt-responsive-th">User / Date</div><div class="rt-responsive-td">
+                    <p><strong>Steven Watson</strong></p>
+                    <div class="spacer-5"></div>
+                    <p class="text-muted">November 24, 2012 at 11:45 am </p>
+                </div></div><div class="rt-responsive-row"><div class="rt-responsive-th">Comment</div><div class="rt-responsive-td">
+                    <p><strong>Quisque nec semper pulvinar pellentesque</strong></p>
+                    <div class="spacer-5"></div>
+                    <p class="text-muted">
+                        Phasellus nibh neque, pharetra a augue nec, eleifend tempus erat.
+                        Nam eros nibh, vestibulum at dolor eu, aliquet varius urna. Fusce iaculis odio viverra velit lobortis accumsan.
+                        Curabitur id leo vitae sem sagittis tristique et in sapien.
+                    </p>
+                </div></div>
+                </td></tr>
+
+            {% endfor %}
+
+
+            {% if tool_count == 0%}
+                        <tr>
+                            <td colspan="3">
+                        <div class="alert alert-info">
+                            <i class="fa fa-info-circle"></i>There are no records to show
+                        </div>
+                            </td>
+                        </tr>
+            {% endif %}
+
+            </tbody>
+        </table>
+            </div>
+
+        <div class="toolbar" >
+            <div class="toolbar-field">
+                <ul class="pagination pagination-centered">
+                    {% if tool_page.has_previous %}
+                    <li><a href="?search_for={{search_for}}&date_from={{date_from}}&date_to={{date_to}}&page=1"><< Prev</a></li>
+                    <li><a href="?search_for={{search_for}}&date_from={{date_from}}&date_to={{date_to}}&page={{ tool_page.previous_page_number }}">< First</a></li>
+                    {%else%}
+                    <li><a style="color:#dddddd"><< First</a></li>
+                    <li><a style="color:#dddddd">< Prev</a></li>
+                    {% endif %}
+
+                    {% for i in tool_page.paginator.page_range %}
+                    {# {% if i <= tool_page.number|add:5 and i >= tool_page.number|add:-5%} #}
+                    <li {% if tool_page.number == i %} class="active" {% endif %}><a href="?search_for={{search_for}}&date_from={{date_from}}&date_to={{date_to}}&page={{i}}">{{i}}</a></li>
+                    {# {% endif %} #}
+
+                    {% endfor %}
+
+                    {% if tool_page.has_next %}
+                    <li><a href="?search_for={{search_for}}&from_date={{from_date}}&to_date={{from_date}}&page={{tool_page.next_page_number}}">Next ></a></li>
+                    <li><a href="?search_for={{search_for}}&from_date={{from_date}}&to_date={{from_date}}&page={{tool_page.paginator.num_pages }}">Last >></a></li>
+
+                    {%else%}
+                    <li><a style="color:#dddddd" class="disabled">Next ></a></li>
+                    <li><a style="color:#dddddd" class="disabled">Last >></a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div><!--toolbar end-->
+    </div><!--widget end-->
+
+</div><!--inner-padding end-->
+
+{% endblock %}

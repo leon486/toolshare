@@ -1,0 +1,128 @@
+{% extends "toolshare/base-user-home.html" %}
+
+{% block actionbar_content%}
+<div class="actionbar">
+    <div class="pull-left">
+        <ul class="ext-tabs">
+            <li><a href="/toolshare/my_account" onclick="window.open('/toolshare/my_account', '_self')">My information</a></li>
+            <li><a href="/toolshare/list-sheds" onclick="window.open('/toolshare/list-sheds', '_self')">Managed sheds</a></li>
+            <li class="active"><a href="/toolshare/list-owned-tools" onclick="window.open('/toolshare/list-owned-tools', '_self')">Owned Tools</a></li>
+        </ul>
+    </div>
+</div><!--actionbar-->
+{% endblock %}
+
+{% block tab_content %}
+
+<div id="owned_tools" class="tab-pane active">
+    <div class="inner-padding">
+        <div class="col-sm-12 centered">
+            <div class="subheading">
+                <h3>Owned Tools</h3>
+                <p>Tools you have registered in toolshare</p>
+            </div>
+
+            <div class="widget" >
+                <header>
+                    <div class="pull-left">
+                        <h2>My owned tools</h2>
+                    </div>
+                    <div class="pull-right">
+                        <a class="btn btn-default btn-sm" href="/toolshare/tool-registration">
+                            Register a new tool
+                        </a>
+                    </div>
+                </header>
+                <div>
+
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                        <tr>
+                            <th scope="col" colspan="2">
+                                <div id="filter-1">
+                                    <div class="pull-left">
+                                        <ul class="filters">
+                                            <li>
+                                                <a href="javascript:void(0)" class="sort" data-sort="data-id" data-order="asc">asc</a>
+                                            </li>
+                                            <li>/</li>
+                                            <li>
+                                                <a href="javascript:void(0)" class="sort active" data-sort="data-id" data-order="desc">desc</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for tool in tool_page %}
+                        {# Each "tool" is a Tool model object. #}
+                        <tr>
+                            <td class="rt-hide-td">
+
+
+                                <a href="{{ tool.picture.url }}" class="lightbox relative" title="{{tool.name}}">
+
+                                    <img src="{{ tool.picture.url }}" class="td-avatar"/>
+                                    <span class="lightbox-indicator" style="display: inline; opacity: 0;"><span><i class="fa fa-search"></i></span></span></a>
+                                <div class="spacer-5"></div>
+                                <p><strong>{{tool.name}}</strong></p>
+
+
+                                <p><strong>Category:</strong><span class="text-muted">{{tool.category}}</span></p>
+                                <p><strong>Status:</strong><span class="text-muted">{{tool.get_status_description}}</span></p>
+
+
+
+                            </td>
+
+                            <td class="rt-hide-td">
+                                <p><strong>Description</strong></p>
+                                <div class="spacer-5"></div>
+                                <p class="text-muted">
+                                    {{tool.description}}
+                                </p>
+                            </td>
+                        </tr>
+                        {% endfor %}
+
+                        </tbody>
+                    </table>
+
+
+
+                </div>
+
+            </div><!--widget end -->
+
+
+            <div class="toolbar">
+                <div class="toolbar-field">
+                    <ul class="pagination pagination-centered">
+                        {% if tool_page.has_previous %}
+                        <li><a href="?page=1"><< First</a></li>
+                        <li><a href="?page={{ tool_page.previous_page_number }}">< Prev</a></li>
+                        {% endif %}
+
+                        {% for i in tool_page.paginator.page_range %}
+                        {# {% if i <= tool_page.number|add:5 and i >= tool_page.number|add:-5%} #}
+                        <li {% if tool_page.number == i %} class="active" {% endif %}><a href="?page={{i}}">{{i}}</a></li>
+                        {# {% endif %} #}
+
+                        {% endfor %}
+
+                        {% if tool_page.has_next %}
+                        <li><a href="?page={{ tool_page.next_page_number }}">Next ></a></li>
+                        <li><a href="?page={{ tool_page.paginator.num_pages }}">Last >></a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </div><!--Inner padding end -->
+</div><!--Managed sheds tab pane end -->
+
+
+{% endblock %}

@@ -1,0 +1,104 @@
+{% extends "toolshare/base_home.html" %}
+
+{% block title %}
+    | changing tool availability
+{% endblock %}
+
+{% block breadcrumb %}
+    <li><a href="/toolshare/">Home</a></li><li class="active"><a href="#"></a>Change tool availability</li>
+{% endblock %}
+
+{% block main_heading %}
+    <h2>Change tool availability </h2>
+{% endblock %}
+
+{% block content %}
+
+<script>
+    function addDays(date, n){
+        date.setDate(date.getDate() + n);
+    }
+
+	$(document).ready(function() {
+        // Get the current
+		var now = new Date();
+        addDays(now, -1);
+
+		//--Render Disable-Dates
+		var disable_dates = [
+            {% for date in list_disabled_dates%}
+                new Date("{{date}}"),
+            {% endfor %}
+            now];
+
+		//--End Render
+
+		// As timestamp
+		for (i = 0; i < disable_dates.length; i++) {
+			d = disable_dates[i];
+			d.setHours(0,0,0,0);
+			disable_dates[i] = d.valueOf();
+		}
+
+
+
+		// To show the second month
+		var aux = new Date();
+		//aux.addDays(30);
+		addDays(aux, 30);
+		$('#reservation-calendar').DatePicker({
+		    format: 'm/d/Y',
+			flat: true,
+			date: [now],
+			current: aux,
+			calendars: 3,
+			mode: 'range',
+			starts: 1,
+			onRender: function(date	) {
+				return {
+					disabled: (date.valueOf() <= now.valueOf()) || (disable_dates.indexOf(date.valueOf()) != -1)
+				}
+			},
+			onChange: function(formated, dates){
+				$('#id_start_date').val(formated[0]);
+				$('#id_end_date').val(formated[1]);
+			},
+		});
+
+		//Select the first day
+		var current_day =  new Date();
+		$('#reservation-calendar').DatePickerSetDate(current_day,false);
+	});
+</script>
+
+
+ <div class="inner-padding">
+    <div style="float:left;width:30%">
+        <img src="{{ tool.picture.url }}">
+    </div>
+     <div style="float:right;width:70%;">
+         <font size="3">
+             <p> {{tool.description}} </p>
+         </font>
+     </div>
+     <br/>
+     <form action="/toolshare/change-tool-availability/{{tool.id}}" method="post">{% csrf_token %}
+            <table>
+                {{ changeToolAvail_form }}
+                <tr><td></td><td></td></tr>
+                <tr><td></td><td></td></tr>
+            </table>
+            <div class="inner-padding" style="overflow:scroll">
+                <div id="reservation-calendar"></div>
+             </div>
+            <table>
+                <tr><td><input type="submit" value="Change tool availability" /></td><td></td></tr>
+            </table>
+
+        </form>
+
+    </div>
+
+
+{% endblock %}
+

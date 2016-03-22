@@ -1,0 +1,34 @@
+    *///////////////*
+    /   Toolshare   /
+    *///////////////*
+
+A.1    Project description
+    This is the code for the Django project "Toolshare" for group 2B of the Fall/2014 RIT Foundations of Software Engineering class.
+	Please use Django 1.6 & Python 3.4.X .
+
+B.1     Installation instructions.
+    This application requires three external python-libraries:
+
+    1.Localflavor
+        To help us to deal with states, phones & addresses.
+
+    2.Pillow
+        Used for administrating images
+
+    3.Pytz
+        Used for timezone convertions
+
+    To install these libraries install them with pip or easy_install under windows, like this:
+
+        # Under Linux/Mac
+            sudo pip3 install django-localflavor
+            sudo pip3 install Pillow
+            sudo pip3 install pytz
+
+        # Under windows:
+            easy_install3 Pillow
+            easy_install3 django-localflavor
+            easy_install3 pytz
+
+C.1     Other information
+    For our installation the admin page can be accessed at localhost:8000/admin with the username: "admin" and password: "admin"

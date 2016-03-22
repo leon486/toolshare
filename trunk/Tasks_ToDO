@@ -1,0 +1,38 @@
+UC-01 Register user                                         --> DONE
+UC-02 Change personal information                           --> DONE
+UC-03 Change user preferences                               --> DONE
+UC-04 Create Community Shed                                 --> DONE
+UC-05 Register Tool                                         --> DONE
+UC-06 Change Tool Information                               --> DONE
+UC-07 Sharing – change availability                         --> DONE
+UC-08 Tool listing - Get tool availability (Find tools)     --> DONE
+* My Reservation Tools                                      --> DONE
+UC-09 Borrowing - Request tool                              --> DONE
+UC-10 Borrowing - Review request                            --> DONE
+UC-11 Borrowing – List tool arrangements (Incoming-Req.)    --> DONE
+UC-12 Borrowing – Initiate return                           --> DONE
+UC-13 Borrowing – Confirm return                            --> DONE
+UC-14 Deactivate/Reactivate tools                           --> DONE
+UC-15 Tool management - Get tools status (List owned tools) --> DONE
+UC-16 Get community statistics                              --> DONE
+UC-17 Log-in                                                --> DONE
+UC-18 Log-out                                               --> DONE
+UC-19 Reservation cancellation - Borrower                   --> DONE
+UC-19 Reservation cancellation - Lender                     --> DONE
+
+
+Bugs:
+-There is no edit shed option implemented.
+-When adding a new tool, you should probably be able to select all sheds in your share zone to share your tool from it.
+-In the request tool form the tool doesnt scale well.
+-When reviewing requests the system should not the lender approve two reservations on conflicting dates.
+-Show the location of the tool (shed, etc)
+
+Features:
++We could add more community statistics
++While creating sheds you shouldn't specify a state or zipcode, they should be taken from the currently logged in user
++Add serial number on tools model
++Make the tool category field a drop-down (combo box)
++Sheds should take the default pickup arrangement from the user model.
++Format the forms, make them more presentable
+

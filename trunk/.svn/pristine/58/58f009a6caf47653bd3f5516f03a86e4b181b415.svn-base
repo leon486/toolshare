@@ -1,0 +1,104 @@
+{% extends "toolshare/base-user-home.html" %}
+
+{% block actionbar_content%}
+<div class="actionbar">
+    <div class="pull-left">
+        <ul class="ext-tabs">
+            <li class="active"><a href="/toolshare/my_account"  onclick="window.open('/toolshare/my_account', '_self')">My information</a></li>
+            <li><a href="/toolshare/list-sheds" onclick="window.open('/toolshare/list-sheds', '_self')">Managed sheds</a></li>
+            <li><a href="/toolshare/list-owned-tools" onclick="window.open('/toolshare/list-owned-tools', '_self')">Owned Tools</a></li>
+        </ul>
+    </div>
+</div><!--actionbar-->
+{% endblock %}
+
+{% block tab_content %}
+<div id="personal_info" class="tab-pane active">
+
+    <div class="inner-padding">
+        <div class="col-sm-6">
+            <div class="client-block">
+                <div class="avatar">
+                    <img src="/static/images/users/user-icon.png"  alt=""/>
+                    <span class="label label-default">{{user.user.share_zone}}</span>
+                </div>
+                <ul class="client-block-list">
+                    <li>
+                        <h3> {{user.first_name}} {{user.last_name}}</h3>
+                        <div class="dropdown">
+                            <a class="btn btn-default btn-sm" href="/toolshare/change-personal-info">
+                                <i class="fa fa-edit"></i>
+                                Edit
+                            </a>
+                        </div><!-- End .dropdown -->
+                    </li>
+                    <li>
+                        <p>
+                            <span class="label label-danger">Joined: {{user.date_joined}}</span>
+                        </p>
+                    </li>
+                    <li>
+                        <p>
+                            {{user.user.address_line}}<br/>
+                            {{user.user.city}}, {{user.user.state}}<br/>
+                           {{user.user.zipcode}}
+                        </p>
+                    </li>
+                    <li>
+                        <span class="text-muted">Email:</span> {{user.email}}
+                    </li>
+                    <li>
+                        <span class="text-muted">Phone:</span> {{user.user.phone}}
+                    </li>
+                    <li>
+                        <span class="text-muted">Sharezone:</span> {{user.user.share_zone}}
+                    </li>
+                </ul>
+            </div><!-- End .client-block -->
+        </div>
+
+        <span class="breakpoint-sm ext-raster-line-6"></span>
+        <div class="col-sm-6">
+            <div class="widget">
+
+                <header>
+                    <div class="inner-padding">
+                        <div class="pull-left">
+                            <h4>Preferences</h4>
+                        </div>
+                        <div class="pull-right">
+                            <div>
+                                <a class="btn btn-default btn-sm" href="/toolshare/change-preferences">
+                                    <i class="fa fa-cog"></i>
+                                    Change
+                                </a>
+                            </div><!-- End .dropdown -->
+                        </div>
+                    </div><!-- Inner padding -->
+                </header>
+                <div>
+                    <div class="inner-padding">
+                        <ul class="client-block-list">
+                            <li>
+                                <span class="text-muted">Email remainder freqency:</span>
+                                {% for code, frequency in user.user.REMAINDER_FREQ_TYPE %}
+                                {% if code == user.user.email_remainder_freq %}
+                                {{ frequency }}
+                                {% endif %}
+                                {% endfor %}
+                            </li>
+
+                            <li>
+                                <span class="text-muted">Default pick-up location:</span> {{user.user.pickup_location}}
+                            </li>
+                        </ul>
+
+                    </div><!-- Inner padding -->
+                </div>
+
+            </div><!-- End Widget -->
+        </div>
+    </div>
+    <span class="breakpoint-sm ext-raster-line-6"></span>
+</div>
+{% endblock%}

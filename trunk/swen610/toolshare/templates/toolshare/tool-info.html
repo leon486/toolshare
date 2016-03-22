@@ -1,0 +1,49 @@
+{% extends "toolshare/base_home.html" %}
+
+{% block title%}
+| Update Tool Information
+{% endblock %}
+
+{% block main_heading %}
+<h2>Edit my Owned Tools</h2>
+<p>Update my Tool information</p>
+{% endblock %}
+
+{% block content %}
+<div class="inner-padding">
+            <div class="row">
+                <div class="col-sm-9"> <label> Name: {{tool.name}} </label> </div>
+            </div>
+    <form action="/toolshare/change-tool-info/{{tool.id}}" method="post" enctype="multipart/form-data">{% csrf_token %}
+       {% for field in changeToolInfo %}
+            <div class="row">
+                <div class="col-sm-3"><label>{{field.label}}:</label></div>
+                <div class="col-sm-9">
+
+                    {% if field.errors %}
+
+                    <div class="form-group has-error">
+                        {% for error in field.errors %}
+                        <label class="control-label" for="id_password">{{error}}</label>
+                        {% endfor %}
+                        {% else %}
+                        <div class="form-group ">
+                            {% endif %}
+                            <div class="controls">{{ field }}</div>
+                        </div><!--form group end-->
+
+                    </div>
+                </div><!--Row end-->
+                {% endfor %}
+
+                <div class="row">
+
+                    <div class="col-sm-3"></div>
+                    <div class="col-sm-9">
+                        <input type="submit" value="Update" />
+                    </div>
+                </div>
+    </form>
+
+</div><!--inner padding end -->
+{% endblock %}

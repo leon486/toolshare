@@ -1,0 +1,33 @@
+{% extends "toolshare/base_home.html" %}
+{% block title %}
+| My account
+{% endblock%}
+
+{% block breadcrumb %}
+    <li><a href="/toolshare/">Home</a></li><li class="active"><a href="#"></a>My account</li>
+{% endblock %}
+
+{% block main_heading %}
+    <h2>My account</h2>
+{% endblock %}
+
+{% block content %}
+        {% block actionbar_content%}
+        <div class="actionbar">
+            <div class="pull-left">
+                <ul class="ext-tabs">
+                    <li class="active"><a href="/toolshare/my_account"  onclick="window.open('/toolshare/my_account', '_self')">My information</a></li>
+                    <li><a href="/toolshare/list-sheds" onclick="window.open('/toolshare/list-sheds', '_self')">Managed sheds</a></li>
+                    <li><a href="/toolshare/list-owned-tools" onclick="window.open('/toolshare/list-owned-tools', '_self')">Owned Tools</a></li>
+                </ul>
+            </div>
+        </div><!--actionbar-->
+        {% endblock %}
+
+        <div class="tab-content">
+            {% block tab_content %}
+
+            {% endblock%}
+        </div><!--Actionbar end -->
+
+{% endblock %}

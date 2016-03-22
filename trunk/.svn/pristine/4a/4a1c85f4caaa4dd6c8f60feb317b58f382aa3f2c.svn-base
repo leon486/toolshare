@@ -1,0 +1,33 @@
+{% extends "toolshare/base_home.html" %}
+
+{% block title %}
+| Home
+{% endblock %}
+
+{% block breadcrumb %}
+<li><a href="#"></a>Home</li>
+{% endblock %}
+
+{% block main_heading %}
+<h2>Home</h2>
+{% endblock %}
+
+{% block content %}
+	<div class="inner-padding">
+	<div class="subheading">
+    <h3>Welcome to tool share!</h3>
+        </div>
+	<p>
+        {% if user.is_authenticated %}
+            <p>Hello {{user.first_name}}!</p>
+            <p>Are you here to list a tool or to borrow one? Which ever the case, just use the menu on your left.</p>
+        {% else %}
+            <a href="{% url 'toolshare:user-registration' %}">Register</a> now or
+        	<a href="{% url 'toolshare:login' %}">Login</a> into your account.
+        {% endif %}
+
+	</p>
+
+	</div><!--Inner padding end-->
+{% endblock %}
+

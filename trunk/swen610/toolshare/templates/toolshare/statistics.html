@@ -1,0 +1,114 @@
+{% extends "toolshare/base_home.html" %}
+
+{% block title %}
+| Community Statistics
+{% endblock %}
+
+{% block breadcrumb %}
+<li><a href="/toolshare/">Home</a></li><li class="active"><a href="#"></a> Community statistics</li>
+{% endblock %}
+
+{% block main_heading %}
+<h2>Community Statistics</h2>
+<p>Toolshare system statistics regarding the user and tools </p>
+{% endblock %}
+
+{% block content %}
+	<div class="inner-padding">
+	                        <div class="project-block">
+                                	<header>
+                                        <h3>Top sharers</h3>
+                                        <p class="text-muted">User sharing the most tools.</p>
+                                    </header>
+                                    <ul>
+                                        {% for u in top_sharers %}
+                                    	<li>
+
+                                            <div class="pull-left">
+                                            {{ u.0 }}
+                                            </div>
+
+                                            <div class="pull-right">
+                                           {{ u.2 }}
+                                            </div>
+
+                                        </li>
+                                        {% endfor %}
+
+                                    </ul>
+                                    </div>
+
+                            <div class="project-block">
+                                	<header>
+                                        <h3>Most Popular tools</h3>
+                                        <p class="text-muted">Tools that have the most pending reservations.</p>
+                                    </header>
+                                    <ul>
+                                    	 {% for u in top_tools %}
+                                        {% if u.2 > 0 %}
+                                    	<li>
+
+                                            <div class="pull-left">
+                                            {{ u.0 }}
+                                            </div>
+
+                                            <div class="pull-right">
+                                           {{ u.2 }}
+                                            </div>
+
+                                        </li>
+                                        {% endif %}
+                                        {% endfor %}
+                                    </ul>
+                                    </div>
+
+                            <div class="project-block">
+                                	<header>
+                                        <h3>Most active zones</h3>
+                                        <p class="text-muted">Tools that have the most pending reservations.</p>
+                                    </header>
+                                    <ul>
+                                    	 {% for u in top_zones %}
+                                        {% if u.2 > 0 %}
+                                    	<li>
+
+                                            <div class="pull-left">
+                                            {{ u.0 }}
+                                            </div>
+
+                                            <div class="pull-right">
+                                           {{ u.2 }}
+                                            </div>
+
+                                        </li>
+                                        {% endif %}
+                                        {% endfor %}
+                                    </ul>
+                                    </div>
+
+                            <div class="project-block">
+                                	<header>
+                                        <h3>Most popular users</h3>
+                                        <p class="text-muted">Tools that have the most pending reservations.</p>
+                                    </header>
+                                    <ul>
+                                    	 {% for u in popular_users %}
+                                        {% if u.2 > 0 %}
+                                    	<li>
+
+                                            <div class="pull-left">
+                                            {{ u.0 }}
+                                            </div>
+
+                                            <div class="pull-right">
+                                           {{ u.2 }}
+                                            </div>
+
+                                        </li>
+                                        {% endif %}
+                                        {% endfor %}
+                                    </ul>
+                                    </div>
+	</div><!--Inner padding end-->
+{% endblock %}
+

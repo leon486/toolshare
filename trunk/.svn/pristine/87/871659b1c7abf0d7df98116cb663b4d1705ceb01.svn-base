@@ -1,0 +1,53 @@
+{% extends "toolshare/base_home.html" %}
+
+{% block title %}
+| Change preferences
+{% endblock %}
+
+{% block breadcrumb %}
+<li><a>Home</a></li><li class="active"><a>Login</a></li>
+{% endblock %}
+
+{% block main_heading %}
+<h2>Change my preferences</h2>
+<p>Change your account configuration preferences</p>
+{% endblock %}
+
+{% block content %}
+
+<div class="inner-padding">
+    <form action="/toolshare/change-preferences" method="post">{% csrf_token %}
+        {% for field in preferences_form %}
+            <div class="row">
+                <div class="col-sm-3"><label>{{field.label}}:</label></div>
+                <div class="col-sm-9">
+
+                    {% if field.errors %}
+
+                    <div class="form-group has-error">
+                        {% for error in field.errors %}
+                        <label class="control-label" for="id_password">{{error}}</label>
+                        {% endfor %}
+                        {% else %}
+                        <div class="form-group ">
+                            {% endif %}
+                            <div class="controls">{{ field }}</div>
+                        </div><!--form group end-->
+
+                    </div>
+                </div><!--Row end-->
+                {% endfor %}
+
+                <div class="row">
+
+                    <div class="col-sm-3"></div>
+                    <div class="col-sm-9">
+                        <input type="submit" value="Change preferences" />
+                        <input type="hidden" name="next" value="{{ next }}" />
+                    </div>
+                </div>
+    </form>
+
+</div><!--Inner padding end-->
+{% endblock %}
+
